@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人形机器人产业链投研看板 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(148, 163, 184, 0.1); }
+        .gradient-text { background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .timeline-line { background: linear-gradient(to bottom, #3b82f6, #8b5cf6); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .badge-core { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .badge-important { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .badge-watch { background: linear-gradient(135deg, #10b981, #059669); }
+        .up { color: #34d399; }
+        .down { color: #f87171; }
+        .filter-btn.active { background: #3b82f6; color: white; }
+        .chain-node { position: relative; }
+        .chain-node::after {
+            content: ''; position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+            width: 0; height: 0; border-left: 10px solid #475569; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+        }
+        .chain-node:last-child::after { display: none; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="glass sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">R</div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">人形机器人产业链投研看板</h1>
+                        <p class="text-xs text-slate-400">基于352篇2026年研报深度分析 | 数据更新: 2026-06-19</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchTab('overview')" id="tab-overview" class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white transition">产业概览</button>
+                    <button onclick="switchTab('reports')" id="tab-reports" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-700 transition">研报浏览器</button>
+                    <button onclick="switchTab('timeline')" id="tab-timeline" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-700 transition">催化时间线</button>
+                    <button onclick="switchTab('recommend')" id="tab-recommend" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-700 transition">核心关注</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <!-- Overview Tab -->
+        <div id="view-overview" class="space-y-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-4 gap-4">
+                <div class="glass rounded-xl p-4 card-hover">
+                    <div class="text-slate-400 text-sm">研报总数</div>
+                    <div class="text-3xl font-bold text-white mt-1">352</div>
+                    <div class="text-xs text-slate-500 mt-1">覆盖11个产业链环节</div>
+                </div>
+                <div class="glass rounded-xl p-4 card-hover">
+                    <div class="text-slate-400 text-sm">覆盖机构</div>
+                    <div class="text-3xl font-bold text-blue-400 mt-1">45+</div>
+                    <div class="text-xs text-slate-500 mt-1">浙商/东吴/万联等深度覆盖</div>
+                </div>
+                <div class="glass rounded-xl p-4 card-hover">
+                    <div class="text-slate-400 text-sm">核心标的</div>
+                    <div class="text-3xl font-bold text-purple-400 mt-1">16</div>
+                    <div class="text-xs text-slate-500 mt-1">A股产业链上市公司</div>
+                </div>
+                <div class="glass rounded-xl p-4 card-hover">
+                    <div class="text-slate-400 text-sm">2026催化事件</div>
+                    <div class="text-3xl font-bold text-emerald-400 mt-1">20+</div>
+                    <div class="text-xs text-slate-500 mt-1">量产/IPO/战略合作</div>
+                </div>
+            </div>
+
+            <!-- Chain Map -->
+            <div class="glass rounded-xl p-6">
+                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-blue-500 rounded"></span>
+                    产业链图谱
+                </h2>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
+                    <div class="chain-node glass px-4 py-3 rounded-lg text-center min-w-[100px]">
+                        <div class="text-xs text-slate-400">上游</div>
+                        <div class="text-sm font-medium">核心零部件</div>
+                    </div>
+                    <div class="chain-node glass px-4 py-3 rounded-lg text-center min-w-[100px]">
+                        <div class="text-xs text-slate-400">中游</div>
+                        <div class="text-sm font-medium">本体集成</div>
+                    </div>
+                    <div class="chain-node glass px-4 py-3 rounded-lg text-center min-w-[100px]">
+                        <div class="text-xs text-slate-400">下游</div>
+                        <div class="text-sm font-medium">应用场景</div>
+                    </div>
+                </div>
+
+                <!-- Category Grid -->
+                <div class="grid grid-cols-3 gap-4" id="category-grid">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <!-- Stock Table -->
+            <div class="glass rounded-xl p-6">
+                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-purple-500 rounded"></span>
+                    核心标的行情
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-slate-400 border-b border-slate-700">
+                                <th class="text-left py-3 px-2">代码</th>
+                                <th class="text-left py-3 px-2">名称</th>
+                                <th class="text-left py-3 px-2">产业链环节</th>
+                                <th class="text-left py-3 px-2">重要性</th>
+                                <th class="text-right py-3 px-2">价格</th>
+                                <th class="text-right py-3 px-2">涨跌幅</th>
+                                <th class="text-right py-3 px-2">PE(TTM)</th>
+                                <th class="text-right py-3 px-2">市值(亿)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stock-table-body">
+                            <!-- Generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="view-reports" class="hidden space-y-4">
+            <!-- Filters -->
+            <div class="glass rounded-xl p-4">
+                <div class="flex flex-wrap gap-3 items-center">
+                    <span class="text-sm text-slate-400">产业链环节:</span>
+                    <div class="flex flex-wrap gap-2" id="category-filters">
+                        <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs bg-slate-700 text-slate-300 transition" data-filter="all">全部</button>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3 items-center mt-3">
+                    <span class="text-sm text-slate-400">研究机构:</span>
+                    <select id="org-filter" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-300">
+                        <option value="all">全部机构</option>
+                    </select>
+                    <span class="text-sm text-slate-400 ml-4">日期范围:</span>
+                    <select id="date-filter" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-300">
+                        <option value="all">全部</option>
+                        <option value="2026-06">2026年6月</option>
+                        <option value="2026-05">2026年5月</option>
+                        <option value="2026-04">2026年4月</option>
+                        <option value="2026-03">2026年3月</option>
+                        <option value="2026-02">2026年2月</option>
+                        <option value="2026-01">2026年1月</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Reports List -->
+            <div class="grid gap-3" id="reports-list">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Timeline Tab -->
+        <div id="view-timeline" class="hidden">
+            <div class="glass rounded-xl p-6">
+                <h2 class="text-lg font-semibold mb-6">2026年产业催化时间线</h2>
+                <div class="relative" id="timeline-container">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommend Tab -->
+        <div id="view-recommend" class="hidden space-y-6">
+            <!-- Auto Recommend Logic Explanation -->
+            <div class="glass rounded-xl p-6">
+                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-emerald-500 rounded"></span>
+                    核心关注清单生成逻辑
+                </h2>
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="bg-slate-800/50 rounded-lg p-4">
+                        <div class="text-blue-400 font-medium mb-2">① 研报密度</div>
+                        <div class="text-slate-400">研报覆盖 >10篇 的环节 = 市场关注度高、信息透明</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-lg p-4">
+                        <div class="text-purple-400 font-medium mb-2">② 机构覆盖度</div>
+                        <div class="text-slate-400">被头部券商（浙商/东吴/国泰君安）深度覆盖</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-lg p-4">
+                        <div class="text-emerald-400 font-medium mb-2">③ 技术壁垒</div>
+                        <div class="text-slate-400">研报密度低但壁垒极高 = 预期差/稀缺性</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended List -->
+            <div class="glass rounded-xl p-6">
+                <h2 class="text-lg font-semibold mb-4">核心关注标的</h2>
+                <div class="space-y-4" id="recommend-list">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Data
+        const categoryData = {
+            "整机/本体": { count: 49, importance: 10, stocks: ["埃斯顿", "机器人"], color: "from-blue-500 to-cyan-500" },
+            "执行器总成": { count: 31, importance: 10, stocks: ["拓普集团", "三花智控"], color: "from-purple-500 to-pink-500" },
+            "空心杯电机": { count: 29, importance: 9, stocks: ["鸣志电器"], color: "from-amber-500 to-orange-500" },
+            "谐波减速器": { count: 26, importance: 10, stocks: ["绿的谐波", "双环传动", "中大力德"], color: "from-red-500 to-rose-500" },
+            "行星滚柱丝杠": { count: 23, importance: 10, stocks: ["五洲新春", "贝斯特"], color: "from-emerald-500 to-teal-500" },
+            "伺服电机/驱动": { count: 17, importance: 9, stocks: ["汇川技术", "步科股份"], color: "from-indigo-500 to-violet-500" },
+            "3D视觉传感器": { count: 16, importance: 8, stocks: ["奥比中光"], color: "from-cyan-500 to-blue-500" },
+            "精密轴承/齿轮": { count: 8, importance: 7, stocks: ["五洲新春", "双环传动"], color: "from-slate-500 to-gray-500" },
+            "六维力传感器": { count: 7, importance: 10, stocks: ["柯力传感"], color: "from-yellow-500 to-amber-500" },
+            "行业策略/投资": { count: 32, importance: 8, stocks: [], color: "from-gray-500 to-slate-500" },
+            "热管理": { count: 1, importance: 7, stocks: ["三花智控"], color: "from-green-500 to-emerald-500" }
+        };
+
+        const stockData = [
+            { code: "688017", name: "绿的谐波", segment: "谐波减速器", tier: "核心", price: 408.01, change_pct: 6.92, pe_ttm: 546.98, mcap_yi: 748.01, pb: 20.96 },
+            { code: "002472", name: "双环传动", segment: "精密齿轮/减速器", tier: "重要", price: 43.78, change_pct: 4.84, pe_ttm: 29.31, mcap_yi: 327.71, pb: 3.61 },
+            { code: "002896", name: "中大力德", segment: "行星减速器", tier: "重要", price: 82.30, change_pct: 3.28, pe_ttm: 286.92, mcap_yi: 161.74, pb: 13.42 },
+            { code: "301368", name: "丰立智能", segment: "精密减速器", tier: "重要", price: 44.40, change_pct: 0.66, pe_ttm: -184.91, mcap_yi: 53.32, pb: 5.66 },
+            { code: "603667", name: "五洲新春", segment: "精密轴承/丝杠", tier: "关注", price: 67.73, change_pct: 1.82, pe_ttm: 307.68, mcap_yi: 248.03, pb: 6.58 },
+            { code: "603728", name: "鸣志电器", segment: "空心杯电机/控制", tier: "核心", price: 63.86, change_pct: 4.16, pe_ttm: 394.80, mcap_yi: 267.50, pb: 9.03 },
+            { code: "300124", name: "汇川技术", segment: "伺服电机/控制器", tier: "核心", price: 71.18, change_pct: 2.05, pe_ttm: 40.65, mcap_yi: 1715.66, pb: 5.50 },
+            { code: "688160", name: "步科股份", segment: "运动控制/驱动器", tier: "重要", price: 112.09, change_pct: 2.55, pe_ttm: 136.35, mcap_yi: 101.81, pb: 7.92 },
+            { code: "603662", name: "柯力传感", segment: "力传感器/六维力", tier: "核心", price: 70.09, change_pct: -0.33, pe_ttm: 64.32, mcap_yi: 196.83, pb: 7.06 },
+            { code: "300007", name: "汉威科技", segment: "气体/柔性传感器", tier: "关注", price: 39.93, change_pct: 2.25, pe_ttm: 78.47, mcap_yi: 112.98, pb: 4.45 },
+            { code: "688322", name: "奥比中光", segment: "3D视觉传感器", tier: "核心", price: 133.73, change_pct: 2.33, pe_ttm: 398.58, mcap_yi: 426.17, pb: 17.92 },
+            { code: "601689", name: "拓普集团", segment: "执行器/热管理", tier: "核心", price: 62.30, change_pct: 3.64, pe_ttm: 39.15, mcap_yi: 1082.67, pb: 4.56 },
+            { code: "002050", name: "三花智控", segment: "热管理/执行器", tier: "核心", price: 45.74, change_pct: 2.56, pe_ttm: 47.09, mcap_yi: 1685.15, pb: 5.90 },
+            { code: "300580", name: "贝斯特", segment: "精密零部件", tier: "重要", price: 22.76, change_pct: -0.78, pe_ttm: 40.59, mcap_yi: 107.56, pb: 3.48 },
+            { code: "002747", name: "埃斯顿", segment: "工业机器人/伺服", tier: "关注", price: 36.50, change_pct: 10.01, pe_ttm: 271.36, mcap_yi: 285.58, pb: 10.91 },
+            { code: "300024", name: "机器人", segment: "工业机器人/系统", tier: "关注", price: 17.85, change_pct: 3.96, pe_ttm: -63.50, mcap_yi: 279.39, pb: 6.91 }
+        ];
+
+        const timelineData = [
+            { date: "2026-06-14", org: "国泰海通证券", title: "开悟世界模型超越Cosmos 3并开源；德国Neura Robotics完成14亿美元C轮融资", type: "技术突破" },
+            { date: "2026-06-08", org: "万联证券", title: "英伟达与宇树科技达成战略合作，推出H2 Plus人形机器人参考设计", type: "战略合作" },
+            { date: "2026-06-01", org: "万联证券", title: "宇树科技科创板IPO将于6月1日上会", type: "IPO" },
+            { date: "2026-05-27", org: "湘财证券", title: "丝杠制造壁垒高企，人形机器人催化丝杠市场规模跃升", type: "行业深度" },
+            { date: "2026-05-20", org: "大公国际", title: "量产突破期的产业分化与国有资本投资逻辑", type: "策略" },
+            { date: "2026-05-18", org: "万联证券", title: "宇树科技发布全球首款量产载人变形机甲GD01", type: "产品发布" },
+            { date: "2026-04-27", org: "万联证券", title: "特斯拉第三代人形机器人预计年中发布，三季度启动正式投产", type: "量产预期" },
+            { date: "2026-04-15", org: "国泰海通证券", title: "智元机器人直播验证效率突破，人形机器人产业化提速", type: "技术突破" },
+            { date: "2026-04-08", org: "国元证券", title: "智元第10000台通用具身智能机器人下线，星海图完成近20亿元融资", type: "量产里程碑" },
+            { date: "2026-03-13", org: "万联证券", title: "2026年人形机器人行业投资策略报告：聚焦量产新阶段，把握供应链机遇", type: "策略" }
+        ];
+
+        const reportsData = [
+            { title: "人形机器人行业跟踪报告：英伟达与宇树科技达成战略合作，推出H2 Plus人形机器人参考设计", date: "2026-06-08", org: "万联证券", category: "整机/本体" },
+            { title: "人形机器人行业跟踪报告：宇树科技科创板IPO将于6月1日上会", date: "2026-06-01", org: "万联证券", category: "整机/本体" },
+            { title: "汽车行业周报：宇树科技6月1日上会，小鹏机器人2026年底启动量产", date: "2026-06-01", org: "华鑫证券", category: "整机/本体" },
+            { title: "机器人行业周报：开悟世界模型超越Cosmos 3并开源；德国Neura Robotics完成14亿美元C轮融资", date: "2026-06-14", org: "国泰海通证券", category: "整机/本体" },
+            { title: "奥比中光（688322）：深度研究报告：十年磨剑，AI之眼", date: "2026-06-02", org: "华创证券", category: "3D视觉传感器" },
+            { title: "电机行业深度：守正出奇，人形机器人赛道发展可期", date: "2026-05-19", org: "中金公司", category: "空心杯电机" },
+            { title: "机器人行业深度：丝杠制造壁垒高企，人形机器人催化丝杠市场规模跃升", date: "2026-05-27", org: "湘财证券", category: "行星滚柱丝杠" },
+            { title: "中小盘策略专题：人形机器人专题-Optimus3产业催化不断，关注滚柱丝杠产业链投资机会", date: "2026-04-14", org: "开源证券", category: "行星滚柱丝杠" },
+            { title: "绿的谐波（688017）：谐波减速器全球龙头，拓展丝杠等新赛道", date: "2026-01-26", org: "国金证券", category: "谐波减速器" },
+            { title: "拓普集团（601689）：马斯克的V3时刻：OptimusV3&星舰V3", date: "2026-03-24", org: "太平洋", category: "执行器总成" },
+            { title: "人形机器人行业研究：量产突破期的产业分化与国有资本投资逻辑", date: "2026-05-20", org: "大公国际", category: "行业策略/投资" },
+            { title: "人形机器人月报：产业催化密集，板块迎来配置良机", date: "2026-05-20", org: "中航证券", category: "行业策略/投资" },
+            { title: "人形机器人行业深度研究报告：人形机器人大势所趋，下游应用逐步打开", date: "2026-05-14", org: "西部证券", category: "行业策略/投资" },
+            { title: "2026年人形机器人行业投资策略报告：聚焦量产新阶段，把握供应链机遇", date: "2026-03-13", org: "万联证券", category: "行业策略/投资" }
+        ];
+
+        // Initialize
+        function init() {
+            renderCategoryGrid();
+            renderStockTable();
+            renderTimeline();
+            renderReports();
+            renderRecommendations();
+            setupFilters();
+        }
+
+        // Render Category Grid
+        function renderCategoryGrid() {
+            const container = document.getElementById('category-grid');
+            const sortedCats = Object.entries(categoryData).sort((a, b) => b[1].count - a[1].count);
+            
+            container.innerHTML = sortedCats.map(([name, data]) => `
+                <div class="glass rounded-lg p-4 card-hover cursor-pointer" onclick="filterByCategory('${name}')">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-medium text-white">${name}</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-gradient-to-r ${data.color} text-white">${data.count}篇</span>
+                    </div>
+                    <div class="text-xs text-slate-400 mb-2">重要性: ${'★'.repeat(data.importance/2)}</div>
+                    <div class="flex flex-wrap gap-1">
+                        ${data.stocks.map(s => `<span class="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">${s}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Stock Table
+        function renderStockTable() {
+            const tbody = document.getElementById('stock-table-body');
+            tbody.innerHTML = stockData.map(s => `
+                <tr class="border-b border-slate-700/50 hover:bg-slate-800/50 transition">
+                    <td class="py-3 px-2 font-mono text-slate-400">${s.code}</td>
+                    <td class="py-3 px-2 font-medium text-white">${s.name}</td>
+                    <td class="py-3 px-2 text-slate-300">${s.segment}</td>
+                    <td class="py-3 px-2">
+                        <span class="badge-${s.tier === '核心' ? 'core' : s.tier === '重要' ? 'important' : 'watch'} text-xs px-2 py-1 rounded text-white">${s.tier}</span>
+                    </td>
+                    <td class="py-3 px-2 text-right font-mono">${s.price.toFixed(2)}</td>
+                    <td class="py-3 px-2 text-right font-mono ${s.change_pct >= 0 ? 'up' : 'down'}">${s.change_pct >= 0 ? '+' : ''}${s.change_pct.toFixed(2)}%</td>
+                    <td class="py-3 px-2 text-right font-mono text-slate-400">${s.pe_ttm > 0 ? s.pe_ttm.toFixed(2) : 'N/A'}</td>
+                    <td class="py-3 px-2 text-right font-mono text-slate-400">${s.mcap_yi.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = `
+                <div class="absolute left-4 top-0 bottom-0 w-0.5 timeline-line rounded"></div>
+                <div class="space-y-6 pl-12">
+                    ${timelineData.map((item, i) => `
+                        <div class="relative">
+                            <div class="absolute -left-10 w-4 h-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-slate-800"></div>
+                            <div class="glass rounded-lg p-4 card-hover">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-sm font-mono text-blue-400">${item.date}</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">${item.type}</span>
+                                    <span class="text-xs text-slate-500">${item.org}</span>
+                                </div>
+                                <div class="text-sm text-slate-200">${item.title}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Render Reports
+        function renderReports(filter = 'all', orgFilter = 'all', dateFilter = 'all') {
+            const container = document.getElementById('reports-list');
+            let filtered = reportsData;
+            
+            if (filter !== 'all') filtered = filtered.filter(r => r.category === filter);
+            if (orgFilter !== 'all') filtered = filtered.filter(r => r.org === orgFilter);
+            if (dateFilter !== 'all') filtered = filtered.filter(r => r.date.startsWith(dateFilter));
+            
+            container.innerHTML = filtered.map(r => `
+                <div class="glass rounded-lg p-4 card-hover">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs px-2 py-0.5 rounded bg-blue-600/30 text-blue-300">${r.category}</span>
+                                <span class="text-xs text-slate-500">${r.org}</span>
+                                <span class="text-xs text-slate-500">${r.date}</span>
+                            </div>
+                            <div class="text-sm text-slate-200">${r.title}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<div class="text-center text-slate-500 py-8">暂无符合条件的研报</div>';
+        }
+
+        // Setup Filters
+        function setupFilters() {
+            const catContainer = document.getElementById('category-filters');
+            const cats = Object.keys(categoryData);
+            cats.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn px-3 py-1.5 rounded-lg text-xs bg-slate-700 text-slate-300 transition';
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    document.querySelectorAll('#category-filters .filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderReports(cat, document.getElementById('org-filter').value, document.getElementById('date-filter').value);
+                };
+                catContainer.appendChild(btn);
+            });
+
+            const orgs = [...new Set(reportsData.map(r => r.org))];
+            const orgSelect = document.getElementById('org-filter');
+            orgs.forEach(org => {
+                const opt = document.createElement('option');
+                opt.value = org;
+                opt.textContent = org;
+                orgSelect.appendChild(opt);
+            });
+
+            orgSelect.onchange = () => renderReports('all', orgSelect.value, document.getElementById('date-filter').value);
+            document.getElementById('date-filter').onchange = (e) => renderReports('all', orgSelect.value, e.target.value);
+        }
+
+        // Render Recommendations
+        function renderRecommendations() {
+            const container = document.getElementById('recommend-list');
+            
+            // Recommendation logic
+            const recommendations = [
+                {
+                    name: "拓普集团",
+                    code: "601689",
+                    category: "执行器总成",
+                    reason: "研报密度31篇(第3)，太平洋证券密集覆盖5篇，Optimus V3核心供应商，特斯拉长期合作伙伴",
+                    score: 95,
+                    tags: ["特斯拉供应链", "执行器龙头", "机构重仓"]
+                },
+                {
+                    name: "绿的谐波",
+                    code: "688017",
+                    category: "谐波减速器",
+                    reason: "谐波减速器全球龙头，国金证券深度覆盖，国产替代核心标的，技术壁垒极高",
+                    score: 92,
+                    tags: ["全球龙头", "国产替代", "技术壁垒"]
+                },
+                {
+                    name: "奥比中光",
+                    code: "688322",
+                    category: "3D视觉传感器",
+                    reason: "华创证券深度研报《十年磨剑，AI之眼》，3D视觉龙头，具身智能时代核心传感器",
+                    score: 88,
+                    tags: ["3D视觉龙头", "AI之眼", "稀缺标的"]
+                },
+                {
+                    name: "柯力传感",
+                    code: "603662",
+                    category: "六维力传感器",
+                    reason: "研报密度仅7篇(低关注)，但六维力传感器壁垒极高，国产化率仅25%，存在预期差",
+                    score: 85,
+                    tags: ["预期差", "高壁垒", "低国产化率"]
+                },
+                {
+                    name: "五洲新春",
+                    code: "603667",
+                    category: "行星滚柱丝杠",
+                    reason: "湘财/开源/国金多家深度覆盖，丝杠制造壁垒高企，卡位人形机器人+EMB双赛道",
+                    score: 83,
+                    tags: ["丝杠龙头", "双赛道", "定增加码"]
+                }
+            ];
+
+            container.innerHTML = recommendations.map((r, i) => `
+                <div class="glass rounded-lg p-5 card-hover">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-2xl font-bold text-slate-600">0${i+1}</span>
+                                <div>
+                                    <div class="text-lg font-bold text-white">${r.name} <span class="text-sm font-normal text-slate-400">(${r.code})</span></div>
+                                    <div class="text-sm text-blue-400">${r.category}</div>
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="text-3xl font-bold gradient-text">${r.score}</div>
+                                    <div class="text-xs text-slate-500">推荐分</div>
+                                </div>
+                            </div>
+                            <div class="text-sm text-slate-300 mb-3 leading-relaxed">${r.reason}</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${r.tags.map(t => `<span class="text-xs px-2 py-1 rounded-full bg-blue-600/20 text-blue-300 border border-blue-600/30">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            ['overview', 'reports', 'timeline', 'recommend'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('bg-blue-600', 'text-white');
+                document.getElementById(`tab-${t}`).classList.add('text-slate-300');
+            });
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('bg-blue-600', 'text-white');
+            document.getElementById(`tab-${tab}`).classList.remove('text-slate-300');
+        }
+
+        function filterByCategory(cat) {
+            switchTab('reports');
+            renderReports(cat, 'all', 'all');
+        }
+
+        // Init
+        init();
+    </script>
+</body>
+</html>
