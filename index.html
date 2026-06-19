@@ -3,406 +3,287 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>人形机器人产业链投研看板 · 深度定量分析</title>
+<title>人形机器人产业链投研看板 · 基于338份研报正文提炼</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#cbd5e1}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0f1e;color:#cbd5e1}
 .glass{background:rgba(15,23,42,.75);backdrop-filter:blur(16px);border:1px solid rgba(100,116,139,.12);border-radius:16px}
 .glass-sm{background:rgba(15,23,42,.6);backdrop-filter:blur(8px);border:1px solid rgba(100,116,139,.08);border-radius:12px}
-.glow{box-shadow:0 0 40px rgba(59,130,246,.08),0 0 80px rgba(139,92,246,.04)}
 .up{color:#34d399}.down{color:#f87171}
 .grad-text{background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.danger{background:linear-gradient(135deg,#ef4444,#dc2626)}.warn{background:linear-gradient(135deg,#f59e0b,#d97706)}.ok{background:linear-gradient(135deg,#10b981,#059669)}
-.tab{transition:all .2s}.tab.active{background:#1d4ed8;color:#fff;box-shadow:0 4px 16px rgba(29,78,216,.3)}
-.tab:not(.active):hover{background:rgba(30,58,138,.3)}
-.scrollbar-hide::-webkit-scrollbar{display:none}
-.bar-fill{transition:width 1.5s ease-out}
-.progress-red{background:linear-gradient(90deg,#ef4444,#f97316)}.progress-yellow{background:linear-gradient(90deg,#f59e0b,#eab308)}.progress-green{background:linear-gradient(90deg,#10b981,#34d399)}
+.danger-bg{background:linear-gradient(135deg,#ef4444,#dc2626)}.warn-bg{background:linear-gradient(135deg,#f59e0b,#d97706)}.ok-bg{background:linear-gradient(135deg,#10b981,#059669)}
+.tab{transition:all .15s}.tab.active{background:#1d4ed8;color:#fff}
+.tab:not(.active):hover{background:rgba(30,58,138,.35)}
+.source-tag{font-size:10px;background:rgba(59,130,246,.15);color:#60a5fa;padding:1px 6px;border-radius:4px}
 </style>
 </head>
 <body class="min-h-screen">
 
-<!-- Header -->
 <header class="glass sticky top-0 z-50 border-b border-slate-700/30">
 <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-lg">R</div>
-<div><h1 class="text-xl font-bold text-white">人形机器人产业链投研看板</h1>
-<p class="text-xs text-slate-500">352篇研报深度提炼 · 定量数据 · 2026-06-19 更新</p></div>
+<div><h1 class="text-xl font-bold text-white">人形机器人投研看板</h1><p class="text-xs text-slate-500">基于338份研报原文摘要提炼 · 2026-06-20更新</p></div>
 </div>
-<div class="flex gap-1.5">
-<button onclick="switchTab('overview')" id="t-overview" class="tab active px-4 py-2 rounded-lg text-sm font-medium">产业概览</button>
-<button onclick="switchTab('cost')" id="t-cost" class="tab px-4 py-2 rounded-lg text-sm font-medium text-slate-300">成本拆解</button>
-<button onclick="switchTab('bottleneck')" id="t-bottleneck" class="tab px-4 py-2 rounded-lg text-sm font-medium text-slate-300">卡脖子分析</button>
-<button onclick="switchTab('reports')" id="t-reports" class="tab px-4 py-2 rounded-lg text-sm font-medium text-slate-300">研报浏览器</button>
-<button onclick="switchTab('timeline')" id="t-timeline" class="tab px-4 py-2 rounded-lg text-sm font-medium text-slate-300">催化时间线</button>
-<button onclick="switchTab('recommend')" id="t-recommend" class="tab px-4 py-2 rounded-lg text-sm font-medium text-slate-300">核心关注</button>
+<div class="flex gap-1 flex-wrap">
+<button onclick="switchTab('overview')" id="t-overview" class="tab active px-3 py-2 rounded-lg text-xs font-medium">产业概览</button>
+<button onclick="switchTab('cost')" id="t-cost" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">成本拆解</button>
+<button onclick="switchTab('pricing')" id="t-pricing" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">降价路径</button>
+<button onclick="switchTab('bottleneck')" id="t-bottleneck" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">卡脖子分析</button>
+<button onclick="switchTab('reports')" id="t-reports" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">研报阅览</button>
+<button onclick="switchTab('timeline')" id="t-timeline" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">催化时间线</button>
+<button onclick="switchTab('recommend')" id="t-recommend" class="tab px-3 py-2 rounded-lg text-xs font-medium text-slate-300">核心关注</button>
 </div>
 </div>
 </header>
 
 <main class="max-w-7xl mx-auto px-5 py-6">
 
-<!-- ========== 产业概览 ========== -->
+<!-- ===== 产业概览 ===== -->
 <div id="v-overview" class="space-y-5">
-
-<!-- 关键指标卡片 -->
 <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
-<div class="glass p-4 glow"><div class="text-xs text-slate-500">2026整机均价</div><div class="text-2xl font-black text-white mt-1">$16K-$30K</div><div class="text-xs text-slate-500 mt-1">Optimus目标$20K(¥14.4万)</div></div>
-<div class="glass p-4 glow"><div class="text-xs text-slate-500">年降幅</div><div class="text-2xl font-black up mt-1">▾ 50-60%</div><div class="text-xs text-slate-500 mt-1">谐波减速器/传感器降幅最大</div></div>
-<div class="glass p-4 glow"><div class="text-xs text-slate-500">供应链国产化率</div><div class="text-2xl font-black text-amber-400 mt-1">68%</div><div class="text-xs text-slate-500 mt-1">2024年35%→2026年68%</div></div>
-<div class="glass p-4 glow"><div class="text-xs text-slate-500">核心零部件占比</div><div class="text-2xl font-black text-purple-400 mt-1">>60%</div><div class="text-xs text-slate-500 mt-1">电机+丝杠+减速器合计>57%</div></div>
-<div class="glass p-4 glow"><div class="text-xs text-slate-500">百万台市场空间</div><div class="text-2xl font-black text-blue-400 mt-1">¥230亿</div><div class="text-xs text-slate-500 mt-1">仅丝杠环节(按BOM 20%测算)</div></div>
+<div class="glass p-4"><div class="text-xs text-slate-500">2026整机均价</div><div class="text-2xl font-black text-white mt-1">$16K-$30K</div><div class="text-xs text-slate-500 mt-1">Optimus目标$20K <span class="source-tag">中信建投6/2</span></div></div>
+<div class="glass p-4"><div class="text-xs text-slate-500">BOM成本年降幅</div><div class="text-2xl font-black up mt-1">▾ 40%+</div><div class="text-xs text-slate-500 mt-1">2024→2026 <span class="source-tag">招商证券(香港)1/30</span></div></div>
+<div class="glass p-4"><div class="text-xs text-slate-500">执行器占比BOM</div><div class="text-2xl font-black text-amber-400 mt-1">~45%</div><div class="text-xs text-slate-500 mt-1">8-10万元/台 <span class="source-tag">36氪2/4</span></div></div>
+<div class="glass p-4"><div class="text-xs text-slate-500">传感器占比BOM</div><div class="text-2xl font-black text-purple-400 mt-1">~15%</div><div class="text-xs text-slate-500 mt-1">2.5-3万元/台 <span class="source-tag">36氪2/4</span></div></div>
+<div class="glass p-4"><div class="text-xs text-slate-500">百万台丝杠市场</div><div class="text-2xl font-black text-blue-400 mt-1">¥300亿</div><div class="text-xs text-slate-500 mt-1">力传感器 <span class="source-tag">华创证券2023</span></div></div>
 </div>
 
-<!-- 核心指标对比表 -->
 <div class="glass p-5">
-<h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-1 h-5 bg-blue-500 rounded"></span>行业核心定量指标一览</h2>
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead><tr class="text-slate-400 border-b border-slate-700/50 text-left">
-<th>指标</th><th>2023</th><th>2024</th><th>2025</th><th>2026(E)</th><th class="text-right">变化趋势</th></tr></thead>
-<tbody class="divide-y divide-slate-700/30">
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">Optimus整机成本</td><td>$73K(Gen1)</td><td>$55K</td><td>$43K</td><td class="text-white font-bold">$20K(目标)</td>
-<td class="text-right up font-bold">▾ 72.6%</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">谐波减速器单价</td><td>¥3,000-5,000</td><td>¥2,500</td><td>¥2,000</td><td class="text-white">¥1,500-2,000</td>
-<td class="text-right up font-bold">▾ 50%+</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">六维力传感器(单轴)</td><td>¥5,000+</td><td>¥3,500</td><td>¥2,500</td><td class="text-white">¥1,500-2,000</td>
-<td class="text-right up font-bold">▾ 60%+</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">伺服电机(高性能)</td><td>¥3,000</td><td>¥2,400</td><td>¥2,000</td><td class="text-white">¥1,800</td>
-<td class="text-right up font-bold">▾ 40%+</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">核心零部件国产化率</td><td>~25%</td><td>35%</td><td>50%</td><td class="text-amber-300 font-bold">68%(Optimus链)</td>
-<td class="text-right text-amber-400 font-bold">▲ 33pp</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">国产整机入门价</td><td>>¥50万</td><td>¥30万</td><td>¥15万</td><td class="text-white font-bold">¥10万以下</td>
-<td class="text-right up font-bold">▾ 80%+</td></tr>
-<tr class="hover:bg-slate-800/30">
-<td class="py-3 font-medium">行星滚柱丝杠国产化率</td><td>15%</td><td>19%</td><td>22%</td><td class="down font-bold">~25-30%</td>
-<td class="text-right down font-bold">最低</td></tr>
-</tbody></table></div>
-<div class="text-xs text-slate-500 mt-2">来源: 中证鹏元(2024.11)、中信建投(2026.01)、知乎专栏(2026)、东方证券(2023)、投中网(2025)</div>
+<h2 class="text-lg font-bold mb-3">研报来源概览</h2>
+<div class="text-sm text-slate-400 mb-3">338份研报摘要全部通过iwencai API获取，以下为核心数据来源：</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">36氪</span><br><span class="text-slate-500">2026-02-04</span><br>BOM成本全表拆解</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">浙商证券</span><br><span class="text-slate-500">2024-02-18</span><br>传感器BOM占比22%</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">华创证券</span><br><span class="text-slate-500">2023-11-16</span><br>力传感器价值量测算</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">万联证券</span><br><span class="text-slate-500">2026-03-13</span><br>量产阶段投资策略</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">招商证券(香港)</span><br><span class="text-slate-500">2026-01-30</span><br>BOM降40%+全产业链</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">中信建投</span><br><span class="text-slate-500">2026-06-02</span><br>Optimus 7-8月量产</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">麦高证券</span><br><span class="text-slate-500">2025-04-11</span><br>丝杠百万台¥1000/根</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">中泰证券</span><br><span class="text-slate-500">2026-04-15</span><br>散热市场规模百亿</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">华源证券</span><br><span class="text-slate-500">2026-06-01</span><br>鸣志电器灵巧手电机</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">国联民生</span><br><span class="text-slate-500">2026-03-13</span><br>灵巧手千亿市场</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">东海证券</span><br><span class="text-slate-500">2025-07-18</span><br>六维力传感器壁垒</div>
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">野村东方</span><br><span class="text-slate-500">2025-06-20</span><br>六维力2027年4.2万套</div>
+</div>
 </div>
 
-<!-- 产业链图谱 + 标的行情 -->
 <div class="glass p-5">
-<h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-1 h-5 bg-purple-500 rounded"></span>产业链环节 · 研报密度 · 核心标的</h2>
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-3" id="chain-grid"></div>
+<h2 class="text-lg font-bold mb-4">核心标的行情 (2026-06-19)</h2>
+<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="text-slate-400 border-b border-slate-700/50 text-left"><th>代码</th><th>名称</th><th>环节</th><th class="text-center">重要性</th><th class="text-right">价格</th><th class="text-right">涨跌</th><th class="text-right">PE</th><th class="text-right">PB</th><th class="text-right">市值(亿)</th></tr></thead><tbody class="divide-y divide-slate-700/30" id="stock-tb"></tbody></table></div></div>
 </div>
 
-<!-- 核心标的行情表 -->
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-1 h-5 bg-cyan-500 rounded"></span>16只核心标的行情 (2026-06-19收盘)</h2>
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead><tr class="text-slate-400 border-b border-slate-700/50 text-left">
-<th>代码</th><th>名称</th><th>产业链环节</th><th class="text-center">重要性</th><th class="text-right">价格</th><th class="text-right">涨跌幅</th><th class="text-right">PE(TTM)</th><th class="text-right">PB</th><th class="text-right">市值(亿)</th></tr></thead>
-<tbody class="divide-y divide-slate-700/30" id="stock-tbody"></tbody></table></div>
-</div>
-</div>
-
-<!-- ========== 成本拆解 ========== -->
+<!-- ===== 成本拆解 ===== -->
 <div id="v-cost" class="hidden space-y-5">
-<!-- BOM饼图+成本表 -->
+<div class="glass p-5"><h2 class="text-lg font-bold mb-4">📊 单台人形机器人BOM成本构成（基于36氪2026.2.4研报数据）</h2>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-<div class="glass p-5"><h2 class="text-lg font-bold mb-4">2026年 Optimus 单台BOM成本构成</h2><canvas id="bomChart" height="320"></canvas></div>
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">核心零部件成本拆解表</h2>
-<div class="overflow-x-auto"><table class="w-full text-sm">
-<thead><tr class="text-slate-400 border-b border-slate-700/50 text-left"><th>部件</th><th>单台价值量</th><th>BOM占比</th><th class="text-right">年降幅</th><th>国产化率</th><th>壁垒</th></tr></thead>
+<div><canvas id="bomChart" height="300"></canvas></div>
+<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="text-slate-400 border-b border-slate-700/50 text-left"><th>模块</th><th>BOM占比</th><th>单台价值(万元)</th><th>核心构成</th><th>来源</th></tr></thead>
 <tbody class="divide-y divide-slate-700/30">
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">行星滚柱丝杠</td><td>$3,600-3,800</td><td class="text-red-400 font-bold">18-19%</td><td class="text-right text-slate-400">~30%</td><td><span class="text-red-400 font-bold">25-30%</span></td><td><span class="danger text-xs text-white px-2 py-0.5 rounded">极高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">谐波减速器</td><td>$2,400-3,000</td><td class="text-red-400 font-bold">12-15%</td><td class="text-right up">50%+</td><td>60%</td><td><span class="warn text-xs text-white px-2 py-0.5 rounded">高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">无框力矩电机</td><td>$2,000-2,400</td><td class="text-amber-400">10-12%</td><td class="text-right up">40%+</td><td>55%</td><td><span class="ok text-xs text-white px-2 py-0.5 rounded">中</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">空心杯电机</td><td>$1,400-1,800</td><td>7-9%</td><td class="text-right text-slate-400">~25%</td><td><span class="text-amber-400 font-bold">40%</span></td><td><span class="warn text-xs text-white px-2 py-0.5 rounded">高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">六维力传感器(×4)</td><td>$3,200-4,000</td><td class="text-red-400 font-bold">16-20%</td><td class="text-right up">60%+</td><td><span class="text-red-400 font-bold">25%</span></td><td><span class="danger text-xs text-white px-2 py-0.5 rounded">极高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">3D视觉传感器</td><td>$1,200-1,600</td><td>6-8%</td><td class="text-right up">35%+</td><td>35%</td><td><span class="warn text-xs text-white px-2 py-0.5 rounded">高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">灵巧手总成</td><td>$3,600-4,000</td><td class="text-red-400 font-bold">18-20%</td><td class="text-right text-slate-400">目标50%</td><td><span class="text-amber-400">40%</span></td><td><span class="danger text-xs text-white px-2 py-0.5 rounded">极高</span></td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-medium">电池+结构件+其他</td><td>$1,200-1,600</td><td>6-8%</td><td class="text-right text-slate-400">~25%</td><td>70%+</td><td><span class="ok text-xs text-white px-2 py-0.5 rounded">低</span></td></tr>
-<tr class="bg-slate-800/50"><td class="py-3 font-bold text-white">硬件BOM合计</td><td class="font-bold text-white">$18,600-22,800</td><td class="font-bold">93-114%</td><td class="text-right"></td><td></td><td></td></tr>
-<tr class="bg-slate-800/30"><td class="py-2 font-medium text-slate-400">软件+调试(额外)</td><td class="text-slate-400">$4,000-6,000</td><td class="text-slate-400">20-30%</td><td class="text-right"></td><td></td><td></td></tr>
-</tbody></table></div>
-<div class="text-xs text-slate-500 mt-3">来源: Standard Bots/Interact Analysis/RoboZaps/中证鹏元/知乎专栏(2026) | 注: 软件成本未含在硬件BOM中</div>
+<tr><td class="py-2 font-medium text-red-400">执行器系统</td><td class="text-red-400 font-bold">~45%</td><td>8-10</td><td class="text-slate-400">无框电机、谐波/RV减速器、行星丝杠</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium text-amber-400">传感器系统</td><td class="text-amber-400 font-bold">~15%</td><td>2.5-3</td><td class="text-slate-400">3D视觉、六维力传感器、IMU</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium">结构件与新材料</td><td>~12%</td><td>2-2.5</td><td class="text-slate-400">碳纤维/PEEK壳体、UHMWPE腱绳</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium">控制系统</td><td>~10%</td><td>1.5-2</td><td class="text-slate-400">伺服控制器、实时控制器</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium">电池与电源</td><td>~8%</td><td>1.2-1.5</td><td class="text-slate-400">高能量密度锂电、BMS</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium">AI主控与芯片</td><td>~5%</td><td>0.8-1</td><td class="text-slate-400">SoC、大模型推理单元</td><td class="source-tag">36氪</td></tr>
+<tr><td class="py-2 font-medium">散热系统</td><td>~5%→10%+</td><td>0.5-0.8</td><td class="text-slate-400">液冷系统(单台$200),未来扩容</td><td class="source-tag">中泰4/15</td></tr>
+</tbody></table></div></div>
+<div class="mt-4 text-xs text-slate-500">
+📌 <b>交叉验证</b>: 浙商证券(2024.2)测算传感器占比~22%; 中证鹏元(2024.11)测算无框力矩电机23%+空心杯9%+谐波减速器11%+丝杠15%,从不同维度印证BOM结构。
 </div>
-</div>
-
-<!-- 降价路径图 -->
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">价格下降曲线：2023→2026→2030</h2>
-<canvas id="priceChart" height="300"></canvas>
-<div class="text-xs text-slate-500 mt-2">来源: 知乎/StandardBots/中信建投研报 (2026)</div>
-</div>
-
-<!-- 国产化率图谱 -->
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">核心零部件国产化率对比 (2026E)</h2>
-<div class="space-y-3" id="localization-bars"></div>
 </div>
 </div>
 
-<!-- ========== 卡脖子分析 ========== -->
-<div id="v-bottleneck" class="hidden space-y-5">
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-2">技术壁垒排序 & 不可替代性评估</h2>
-<p class="text-sm text-slate-400 mb-4">综合东方证券/湘财证券/中证鹏元/知乎等研报结论,技术壁垒从高到低:</p>
-<div class="space-y-4" id="bottleneck-list"></div>
-</div>
+<!-- ===== 降价路径 ===== -->
+<div id="v-pricing" class="hidden space-y-5">
+<div class="glass p-5"><h2 class="text-lg font-bold mb-4">价格下降曲线（研报数据综合）</h2><canvas id="priceChart" height="320"></canvas></div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">最大卡脖子环节 - 行星滚柱丝杠</h2>
-<ul class="space-y-2 text-sm text-slate-300">
-<li><span class="text-red-400 font-bold">■</span> 进口价格 <b class="text-red-400">¥12,000/根</b>，单台 Optimus 需 <b class="text-red-400">14-16根</b></li>
-<li><span class="text-red-400 font-bold">■</span> 仅丝杠即占 BOM <b class="text-red-400">~19%</b> (最高单项成本)</li>
-<li><span class="text-red-400 font-bold">■</span> 制造壁垒: 螺纹沟槽宽度仅<b>0.1-0.2mm</b>, 配合间隙<b>数微米</b>级</li>
-<li><span class="text-red-400 font-bold">■</span> 国产化率仅 <b class="text-red-400">25-30%</b> (2022年仅19%), 核心零部件中最低</li>
-<li><span class="text-amber-400 font-bold">■</span> 五洲新春(国内量产领先)、新剑传动(未上市)、震裕科技</li>
-<li><span class="text-blue-400 font-bold">■</span> 突破关键: 高精度磨床国产化 (长坂科技已将产线成本从¥2亿→¥2000万)</li>
-</ul></div>
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">第二大卡脖子 - 六维力传感器</h2>
-<ul class="space-y-2 text-sm text-slate-300">
-<li><span class="text-red-400 font-bold">■</span> 单台机器人需 <b>4个六维力</b> + <b>28个关节力矩</b>传感器</li>
-<li><span class="text-red-400 font-bold">■</span> 传感器合计占整机成本 <b>~34%</b> (价值量最高)</li>
-<li><span class="text-amber-400 font-bold">■</span> 进口单轴¥5,000+ → 国产突破至¥1,500-2,000 (降幅60%+)</li>
-<li><span class="text-red-400 font-bold">■</span> 国产化率仅<b>~25%</b>，交叉耦合解耦算法是核心难题</li>
-<li><span class="text-amber-400 font-bold">■</span> 柯力传感(唯一A股稀缺标的)、汉威科技、宇立仪器(未上市)</li>
-</ul></div>
-</div>
-
-<div class="glass p-5">
-<h2 class="text-lg font-bold mb-4">最不可替代零部件排名</h2>
-<table class="w-full text-sm"><thead><tr class="text-slate-400 border-b border-slate-700/50 text-left"><th class="w-8">#</th><th>零部件</th><th>不可替代原因</th><th>替代周期</th><th>国产替代进度</th><th>稀缺标的</th></tr></thead>
+<div class="glass p-5"><h2 class="text-lg font-bold mb-3">六维力传感器成本与出货量关系</h2>
+<table class="w-full text-xs"><thead><tr class="text-slate-400 border-b border-slate-700/50"><th>Optimus产量(万台)</th><th class="text-right">单台传感器价值量(元)</th><th class="text-right">市场规模(亿元)</th></tr></thead>
 <tbody class="divide-y divide-slate-700/30">
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-bold text-red-400">1</td><td class="font-medium">行星滚柱丝杠</td><td class="text-slate-400">唯一满足高负载+长寿命+自锁的线性传动方案</td><td class="text-red-400">2-3年</td><td><div class="w-24 h-2 bg-slate-700 rounded-full"><div class="h-2 progress-red rounded-full" style="width:25%"></div></div><span class="text-xs text-red-400 ml-1">25%</span></td><td class="text-amber-400">五洲新春 恒立液压</td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-bold text-red-400">2</td><td class="font-medium">六维力传感器</td><td class="text-slate-400">唯一能同时测量三维力+三维力矩的传感器</td><td class="text-amber-400">1.5-2年</td><td><div class="w-24 h-2 bg-slate-700 rounded-full"><div class="h-2 progress-red rounded-full" style="width:25%"></div></div><span class="text-xs text-red-400 ml-1">25%</span></td><td class="text-amber-400">柯力传感</td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-bold text-amber-400">3</td><td class="font-medium">谐波减速器</td><td class="text-slate-400">精度<1弧分,疲劳寿命>1万小时,结构最紧凑</td><td class="text-amber-400">1-2年</td><td><div class="w-24 h-2 bg-slate-700 rounded-full"><div class="h-2 progress-yellow rounded-full" style="width:60%"></div></div><span class="text-xs text-amber-400 ml-1">60%</span></td><td class="text-amber-400">绿的谐波 双环传动</td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-bold text-amber-400">4</td><td class="font-medium">空心杯电机</td><td class="text-slate-400">灵巧手核心驱动,高转速+低惯性+长寿命</td><td class="text-amber-400">1-1.5年</td><td><div class="w-24 h-2 bg-slate-700 rounded-full"><div class="h-2 progress-yellow rounded-full" style="width:40%"></div></div><span class="text-xs text-amber-400 ml-1">40%</span></td><td class="text-amber-400">鸣志电器</td></tr>
-<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-bold text-green-400">5</td><td class="font-medium">无框力矩电机</td><td class="text-slate-400">身体关节核心动力源,但技术相对成熟</td><td class="text-green-400"><1年</td><td><div class="w-24 h-2 bg-slate-700 rounded-full"><div class="h-2 progress-green rounded-full" style="width:55%"></div></div><span class="text-xs text-green-400 ml-1">55%</span></td><td class="text-amber-400">汇川技术</td></tr>
-</tbody></table>
-</div>
-</div>
+<tr><td class="py-2">10</td><td class="text-right font-mono text-amber-400">60,000</td><td class="text-right font-mono text-blue-400">60</td></tr>
+<tr><td class="py-2">50</td><td class="text-right font-mono text-amber-400">42,000</td><td class="text-right font-mono text-blue-400">210</td></tr>
+<tr><td class="py-2">100</td><td class="text-right font-mono text-green-400">30,000</td><td class="text-right font-mono text-blue-400">300</td></tr>
+</tbody></table><div class="text-xs text-slate-500 mt-2 source-tag">华创证券 2023-11-16</div></div>
 
-<!-- ========== 研报浏览器 ========== -->
-<div id="v-reports" class="hidden space-y-4"><div class="glass p-4"><div class="flex flex-wrap gap-3 items-center"><span class="text-sm text-slate-400">产业链环节:</span><div class="flex flex-wrap gap-2" id="cat-filters"></div></div><div class="flex flex-wrap gap-3 items-center mt-3"><span class="text-sm text-slate-400">机构:</span><select id="org-filter" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-300"><option value="all">全部</option></select><span class="text-sm text-slate-400 ml-4">日期:</span><select id="date-filter" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-300"><option value="all">全部</option><option value="2026-06">2026年6月</option><option value="2026-05">2026年5月</option><option value="2026-04">2026年4月</option><option value="2026-03">2026年3月</option><option value="2026-02">2026年2月</option><option value="2026-01">2026年1月</option></select></div></div><div class="grid gap-3" id="reports-list"></div></div>
-
-<!-- ========== 催化时间线 ========== -->
-<div id="v-timeline" class="hidden"><div class="glass p-5"><h2 class="text-lg font-bold mb-6">2026年产业催化时间线</h2><div class="relative" id="timeline-container"></div></div></div>
-
-<!-- ========== 核心关注 ========== -->
-<div id="v-recommend" class="hidden space-y-5">
-<div class="glass p-5"><h2 class="text-lg font-bold mb-4">推荐逻辑</h2><div class="grid grid-cols-3 gap-3 text-sm">
-<div class="glass-sm p-4"><div class="text-blue-400 font-bold mb-1">① 研报密度</div><div class="text-slate-400">研报>10篇=市场共识; <5篇但壁垒高=预期差</div></div>
-<div class="glass-sm p-4"><div class="text-purple-400 font-bold mb-1">② 卡脖子排序</div><div class="text-slate-400">壁垒越高+国产化率越低=最不可替代</div></div>
-<div class="glass-sm p-4"><div class="text-emerald-400 font-bold mb-1">③ 成本占比</div><div class="text-slate-400">BOM占比越大+降幅空间越大=利润弹性越大</div></div>
+<div class="glass p-5"><h2 class="text-lg font-bold mb-3">零部件关键价格里程碑</h2>
+<div class="space-y-2 text-xs">
+<div class="flex justify-between py-1 border-b border-slate-700/30"><span>谐波减速器</span><span>¥3,000→¥1,500 <span class="up">▾50%</span></span><span class="source-tag">2023→2026</span></div>
+<div class="flex justify-between py-1 border-b border-slate-700/30"><span>六维力传感器(单轴)</span><span>¥5,000→¥1,700 <span class="up">▾60%+</span></span><span class="source-tag">进口→国产</span></div>
+<div class="flex justify-between py-1 border-b border-slate-700/30"><span>行星滚柱丝杠</span><span>¥12,000→¥1,000 <span class="up">▾91%</span></span><span class="source-tag">进口→百万台</span></div>
+<div class="flex justify-between py-1 border-b border-slate-700/30"><span>六维力ASP(整机)</span><span>¥6-8万→¥3万 <span class="up">▾50%+</span></span><span class="source-tag">10万台→100万台</span></div>
+<div class="flex justify-between py-1 border-b border-slate-700/30"><span>Optimus整机</span><span>$73K→$20K <span class="up">▾72%</span></span><span class="source-tag">Gen1→Gen3目标</span></div>
+<div class="flex justify-between py-1"><span>散热系统(单台)</span><span>$200→$500+ <span class="down">▲150%</span></span><span class="source-tag">被动→主动液冷</span></div>
 </div></div>
-<div class="glass p-5"><h2 class="text-lg font-bold mb-4">核心关注清单 (自动生成)</h2><div class="space-y-4" id="recommend-list"></div></div>
+</div>
+</div>
+
+<!-- ===== 卡脖子分析 ===== -->
+<div id="v-bottleneck" class="hidden space-y-5">
+<div class="glass p-5"><h2 class="text-lg font-bold mb-2">🔴 技术壁垒 & 不可替代性排序（基于研报原文）</h2></div>
+<div class="space-y-4" id="bn-list"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+<div class="glass p-5"><h2 class="text-lg font-bold mb-3">最大卡脖子：行星滚柱丝杠</h2>
+<ul class="space-y-1.5 text-xs text-slate-300">
+<li>🔴 进口价¥12,000/根,单台Optimus需14-16根</li>
+<li>🔴 2022年国内市场规模仅4.4亿元(MGA4/11)</li>
+<li>🔴 百万台时单价可降至¥1,000/根(麦高测算)</li>
+<li>🟡 五洲新春已获辰致科技/欧摩威/吉利定点(湘财5/27)</li>
+<li>🟢 长坂科技高精度磨床:产线成本¥2亿→¥2,000万</li>
+</ul></div>
+<div class="glass p-5"><h2 class="text-lg font-bold mb-3">第二大卡脖子：六维力传感器</h2>
+<ul class="space-y-1.5 text-xs text-slate-300">
+<li>🔴 "环境感知-运动决策-力控执行"闭环关键神经元(东北证券5/14)</li>
+<li>🔴 六维力在机器人领域应用占比72%(东海证券7/18)</li>
+<li>🟡 2027年机器人销量4.2万套,CAGR 57%(野村东方)</li>
+<li>🟡 ASP 6-8万元(华创),百万台降至3万</li>
+<li>🟢 交叉耦合解耦算法+应变片工艺双重壁垒</li>
+</ul></div>
+</div>
+</div>
+
+<!-- ===== 研报阅览 ===== -->
+<div id="v-reports" class="hidden space-y-4">
+<div class="glass p-4"><div class="flex flex-wrap gap-3 items-center"><span class="text-xs text-slate-400">环节:</span><div class="flex flex-wrap gap-1" id="cat-filters"></div></div></div>
+<div class="space-y-2" id="rp-list"></div>
+</div>
+
+<!-- ===== 催化时间线 ===== -->
+<div id="v-timeline" class="hidden"><div class="glass p-5"><div class="relative" id="tl-container"></div></div></div>
+
+<!-- ===== 核心关注 ===== -->
+<div id="v-recommend" class="hidden space-y-5">
+<div class="glass p-5"><h2 class="text-lg font-bold mb-3">推荐逻辑(基于研报原文)</h2>
+<div class="grid grid-cols-3 gap-3 text-xs">
+<div class="glass-sm p-3"><span class="text-blue-400 font-bold">成本占比最大</span><br><span class="text-slate-400">执行器~45%→拓普/三花</span></div>
+<div class="glass-sm p-3"><span class="text-purple-400 font-bold">卡脖子最严重</span><br><span class="text-slate-400">丝杠(¥1.2万/根)→五洲</span></div>
+<div class="glass-sm p-3"><span class="text-emerald-400 font-bold">预期差最大</span><br><span class="text-slate-400">六维力(¥6-8万ASP)→柯力</span></div></div></div>
+<div class="space-y-4" id="rc-list"></div>
 </div>
 
 </main>
 
 <script>
-// ═══════════════════════════════════════
-// 数据
-// ═══════════════════════════════════════
-const categories=[
-{name:"行星滚柱丝杠",count:23,imp:10,stocks:["五洲新春","贝斯特","恒立液压"],color:"from-red-500 to-rose-600",bom:"~19%"},
-{name:"执行器总成",count:31,imp:10,stocks:["拓普集团","三花智控"],color:"from-purple-500 to-pink-600",bom:"~50%(含电机+减速器+丝杠)"},
-{name:"谐波减速器",count:26,imp:10,stocks:["绿的谐波","双环传动","中大力德"],color:"from-orange-500 to-red-500",bom:"12-15%"},
-{name:"六维力传感器",count:7,imp:10,stocks:["柯力传感"],color:"from-yellow-500 to-amber-600",bom:"~16-20%"},
-{name:"整机/本体",count:49,imp:10,stocks:["埃斯顿","机器人"],color:"from-blue-500 to-cyan-500",bom:"—"},
-{name:"空心杯电机",count:29,imp:9,stocks:["鸣志电器"],color:"from-amber-500 to-orange-600",bom:"7-9%"},
-{name:"伺服电机/驱动",count:17,imp:9,stocks:["汇川技术","步科股份"],color:"from-indigo-500 to-violet-600",bom:"10-12%"},
-{name:"3D视觉传感器",count:16,imp:8,stocks:["奥比中光"],color:"from-cyan-500 to-blue-600",bom:"6-8%"},
-{name:"行业策略/投资",count:32,imp:8,stocks:[],color:"from-gray-500 to-slate-600",bom:"—"},
-{name:"灵巧手/末端",count:21,imp:9,stocks:["五洲新春","鸣志电器"],color:"from-pink-500 to-rose-600",bom:"18-20%"},
-{name:"精密轴承/齿轮",count:8,imp:7,stocks:["五洲新春","双环传动"],color:"from-slate-500 to-gray-600",bom:"3-5%"},
-];
-
+// ═══════════ 数据 ═══════════
 const stocks=[
-{code:"688017",name:"绿的谐波",segment:"谐波减速器",tier:"核心",price:408.01,chg:6.92,pe:546.98,pb:20.96,mcap:748.01},
-{code:"002472",name:"双环传动",segment:"精密齿轮/减速器",tier:"重要",price:43.78,chg:4.84,pe:29.31,pb:3.61,mcap:327.71},
-{code:"603667",name:"五洲新春",segment:"精密轴承/丝杠",tier:"核心",price:67.73,chg:1.82,pe:307.68,pb:6.58,mcap:248.03},
-{code:"603728",name:"鸣志电器",segment:"空心杯电机/控制",tier:"核心",price:63.86,chg:4.16,pe:394.80,pb:9.03,mcap:267.50},
-{code:"300124",name:"汇川技术",segment:"伺服电机/控制器",tier:"核心",price:71.18,chg:2.05,pe:40.65,pb:5.50,mcap:1715.66},
-{code:"688160",name:"步科股份",segment:"运动控制/驱动器",tier:"重要",price:112.09,chg:2.55,pe:136.35,pb:7.92,mcap:101.81},
-{code:"603662",name:"柯力传感",segment:"六维力传感器",tier:"核心",price:70.09,chg:-0.33,pe:64.32,pb:7.06,mcap:196.83},
-{code:"688322",name:"奥比中光",segment:"3D视觉传感器",tier:"核心",price:133.73,chg:2.33,pe:398.58,pb:17.92,mcap:426.17},
-{code:"601689",name:"拓普集团",segment:"执行器/热管理",tier:"核心",price:62.30,chg:3.64,pe:39.15,pb:4.56,mcap:1082.67},
-{code:"002050",name:"三花智控",segment:"热管理/执行器",tier:"核心",price:45.74,chg:2.56,pe:47.09,pb:5.90,mcap:1685.15},
-{code:"300580",name:"贝斯特",segment:"精密零部件",tier:"重要",price:22.76,chg:-0.78,pe:40.59,pb:3.48,mcap:107.56},
-{code:"002896",name:"中大力德",segment:"行星减速器",tier:"重要",price:82.30,chg:3.28,pe:286.92,pb:13.42,mcap:161.74},
-{code:"002747",name:"埃斯顿",segment:"工业机器人",tier:"关注",price:36.50,chg:10.01,pe:271.36,pb:10.91,mcap:285.58},
-{code:"300024",name:"机器人",segment:"工业机器人/系统",tier:"关注",price:17.85,chg:3.96,pe:-63.50,pb:6.91,mcap:279.39},
-{code:"301368",name:"丰立智能",segment:"精密减速器",tier:"重要",price:44.40,chg:0.66,pe:-184.91,pb:5.66,mcap:53.32},
-{code:"300007",name:"汉威科技",segment:"气体/柔性传感器",tier:"关注",price:39.93,chg:2.25,pe:78.47,pb:4.45,mcap:112.98},
+{code:"601689",name:"拓普集团",seg:"执行器/热管理",tier:"核心",price:62.30,chg:3.64,pe:39.15,pb:4.56,mcap:1082.67},
+{code:"002050",name:"三花智控",seg:"热管理/执行器",tier:"核心",price:45.74,chg:2.56,pe:47.09,pb:5.90,mcap:1685.15},
+{code:"688017",name:"绿的谐波",seg:"谐波减速器",tier:"核心",price:408.01,chg:6.92,pe:546.98,pb:20.96,mcap:748.01},
+{code:"603667",name:"五洲新春",seg:"轴承/丝杠",tier:"核心",price:67.73,chg:1.82,pe:307.68,pb:6.58,mcap:248.03},
+{code:"603662",name:"柯力传感",seg:"六维力传感器",tier:"核心",price:70.09,chg:-0.33,pe:64.32,pb:7.06,mcap:196.83},
+{code:"603728",name:"鸣志电器",seg:"空心杯电机",tier:"核心",price:63.86,chg:4.16,pe:394.80,pb:9.03,mcap:267.50},
+{code:"300124",name:"汇川技术",seg:"伺服电机",tier:"核心",price:71.18,chg:2.05,pe:40.65,pb:5.50,mcap:1715.66},
+{code:"688322",name:"奥比中光",seg:"3D视觉",tier:"核心",price:133.73,chg:2.33,pe:398.58,pb:17.92,mcap:426.17},
+{code:"002472",name:"双环传动",seg:"精密齿轮",tier:"重要",price:43.78,chg:4.84,pe:29.31,pb:3.61,mcap:327.71},
+{code:"688160",name:"步科股份",seg:"运动控制",tier:"重要",price:112.09,chg:2.55,pe:136.35,pb:7.92,mcap:101.81},
+{code:"002896",name:"中大力德",seg:"行星减速器",tier:"重要",price:82.30,chg:3.28,pe:286.92,pb:13.42,mcap:161.74},
+{code:"300580",name:"贝斯特",seg:"精密零部件",tier:"重要",price:22.76,chg:-0.78,pe:40.59,pb:3.48,mcap:107.56},
+{code:"002747",name:"埃斯顿",seg:"工业机器人",tier:"关注",price:36.50,chg:10.01,pe:271.36,pb:10.91,mcap:285.58},
+{code:"300024",name:"机器人",seg:"工业机器人",tier:"关注",price:17.85,chg:3.96,pe:-63.50,pb:6.91,mcap:279.39},
+{code:"301368",name:"丰立智能",seg:"精密减速器",tier:"关注",price:44.40,chg:0.66,pe:-184.91,pb:5.66,mcap:53.32},
+{code:"300007",name:"汉威科技",seg:"传感器",tier:"关注",price:39.93,chg:2.25,pe:78.47,pb:4.45,mcap:112.98},
 ];
 
 const timeline=[
-{date:"2026-06-14",type:"技术突破",title:"开悟世界模型超越Cosmos 3,德国Neura Robotics完成14亿美元C轮融资"},
-{date:"2026-06-08",type:"战略合作",title:"英伟达×宇树科技合作,推出H2 Plus人形机器人参考设计"},
-{date:"2026-06-01",type:"IPO里程碑",title:"宇树科技科创板IPO上会,国内首家冲刺上市的人形机器人整机企业"},
-{date:"2026-05-27",type:"行业深度",title:"湘财证券:丝杠制造壁垒高企,人形机器人催化丝杠市场规模跃升"},
-{date:"2026-05-20",type:"策略研究",title:"大公国际:量产突破期的产业分化与国有资本投资逻辑"},
-{date:"2026-05-18",type:"产品发布",title:"宇树科技发布全球首款量产载人变形机甲GD01"},
-{date:"2026-04-27",type:"量产预期",title:"Optimus预计年中发布V3,三季度弗里蒙特工厂正式启动量产"},
-{date:"2026-04-15",type:"技术突破",title:"智元机器人直播验证效率突破,人形机器人产业化提速"},
-{date:"2026-04-08",type:"量产里程碑",title:"智元第10,000台通用具身智能机器人下线,星海图完成近20亿元融资"},
-{date:"2026-03-24",type:"深度覆盖",title:"太平洋证券:Optimus V3时刻——行星滚柱丝杠+谐波减速器国产替代"},
-{date:"2026-03-13",type:"年度策略",title:"万联证券:聚焦量产新阶段,把握供应链机遇"},
-{date:"2026-02-05",type:"行业全景",title:"新浪财经:2026年中国人形机器人产业格局全景解析 - 国产化率突破75%"},
-{date:"2026-01-26",type:"深度研究",title:"国金证券:绿的谐波——谐波减速器全球龙头,拓展丝杠等新赛道"},
-{date:"2026-01-21",type:"政策催化",title:"工信部:聚焦人形机器人大模型研发、核心零部件自主化、场景适配"},
-{date:"2026-01-08",type:"新华社展望",title:"新华社:2026人形机器人产业展望——10万级量产将至,商业化元年开启"},
+{date:"2026-06-14",type:"技术突破",title:"开悟世界模型超越Cosmos3; Neura Robotics完成14亿美元C轮",src:"国泰海通"},
+{date:"2026-06-08",type:"战略合作",title:"英伟达×宇树科技推出H2 Plus人形机器人参考设计",src:"万联证券"},
+{date:"2026-06-02",type:"量产确认",title:"特斯拉Q1季报: Optimus弗里蒙特7月底-8月量产;德州第二产线27年投产",src:"中信建投"},
+{date:"2026-06-01",type:"IPO里程碑",title:"宇树科技科创板IPO上会,国内首家冲刺上市人形机器人整机企业",src:"万联证券"},
+{date:"2026-06-01",type:"深度覆盖",title:"鸣志电器: 先发布局灵巧手电机,Gen3单手25个执行器,百万台对应百亿市场",src:"华源证券"},
+{date:"2026-05-27",type:"行业深度",title:"丝杠制造壁垒高企: 五洲新春已获辰致/欧摩威/吉利定点",src:"湘财证券"},
+{date:"2026-04-15",type:"首次覆盖",title:"东方电热: 液冷系统单台$200,散热市场2035年达百亿量级",src:"中泰证券"},
+{date:"2026-04-08",type:"量产里程碑",title:"智元第10,000台机器人下线,星海图完成近20亿元融资",src:"国元证券"},
+{date:"2026-03-31",type:"深度覆盖",title:"奥比中光: 已全面进入人形机器人第一梯队供应链(智元/宇树/优必选/乐聚)",src:"中泰证券"},
+{date:"2026-03-13",type:"年度策略",title:"国联民生: 灵巧手千亿市场,核心零部件量产降本进行时",src:"国联民生"},
+{date:"2026-03-13",type:"年度策略",title:"万联: 优必选2025年>500台交付;2026年产能万台;智元2026年数万台出货",src:"万联证券"},
+{date:"2026-03-10",type:"融资事件",title:"松延动力完成近10亿元B轮融资;小米人形机器人进入汽车工厂实习",src:"万联证券"},
+{date:"2026-01-30",type:"行业拐点",title:"招商(香港): BOM成本降40%+;2026Q4订单加速;硬件卡点解决",src:"招商证券(香港)"},
+{date:"2026-01-21",type:"政策催化",title:"工信部: 聚焦人形机器人大模型研发、核心零部件自主化、场景适配",src:"官方"},
+{date:"2026-01-08",type:"新华社展望",title:"2026人形机器人产业展望: 10万级量产将至,商业化元年开启",src:"新华社"},
 ];
 
 const reports=[
-{title:"机器人周报:开悟世界模型超越Cosmos 3;Neura Robotics 14亿美元C轮",date:"2026-06-14",org:"国泰海通",cat:"整机/本体"},
-{title:"英伟达×宇树科技合作,推出H2 Plus人形机器人参考设计",date:"2026-06-08",org:"万联证券",cat:"整机/本体"},
-{title:"宇树科技科创板IPO 6月1日上会",date:"2026-06-01",org:"万联证券",cat:"整机/本体"},
-{title:"奥比中光深度:十年磨剑,AI之眼",date:"2026-06-02",org:"华创证券",cat:"3D视觉传感器"},
-{title:"丝杠制造壁垒高企,人形机器人催化市场规模跃升",date:"2026-05-27",org:"湘财证券",cat:"行星滚柱丝杠"},
-{title:"电机行业深度:守正出奇,人形机器人赛道发展可期",date:"2026-05-19",org:"中金公司",cat:"空心杯电机"},
-{title:"量产突破期的产业分化与国有资本投资逻辑",date:"2026-05-20",org:"大公国际",cat:"行业策略/投资"},
-{title:"中小盘策略:Optimus3产业催化不断,关注滚柱丝杠产业链",date:"2026-04-14",org:"开源证券",cat:"行星滚柱丝杠"},
-{title:"Optimus的V3时刻:行星滚柱丝杠+谐波减速器国产替代正当时",date:"2026-03-24",org:"太平洋证券",cat:"执行器总成"},
-{title:"2026年人形机器人行业投资策略:聚焦量产新阶段,把握供应链机遇",date:"2026-03-13",org:"万联证券",cat:"行业策略/投资"},
-{title:"绿的谐波深度:谐波减速器全球龙头,拓展丝杠等新赛道",date:"2026-01-26",org:"国金证券",cat:"谐波减速器"},
-{title:"五洲新春:丝杠龙头卡位人形机器人+EMB双赛道,定增加码产能",date:"2026-01-15",org:"浙商证券",cat:"行星滚柱丝杠"},
-{title:"丝杠:核心传动部件,人形机器人开启成长空间",date:"2025-12-10",org:"东方证券",cat:"行星滚柱丝杠"},
-{title:"人形机器人月报:产业催化密集,板块迎来配置良机",date:"2026-05-20",org:"中航证券",cat:"行业策略/投资"},
-{title:"人形机器人深度:人形机器人大势所趋,下游应用逐步打开",date:"2026-05-14",org:"西部证券",cat:"行业策略/投资"},
-{title:"人形机器人月报:智元下线破万,Optimus量产在即",date:"2026-04-20",org:"万联证券",cat:"整机/本体"},
-{title:"拓普集团:马斯克的V3时刻,Optimus核心供应商",date:"2026-03-24",org:"太平洋证券",cat:"执行器总成"},
-{title:"人形机器人零部件国产化进程加速,PEEK轻量化材料需求爆发",date:"2024-11-11",org:"中证鹏元",cat:"行业策略/投资"},
-{title:"人形机器人系列报告:丝杠为BOM成本最高单项(19%),国产替代空间最大",date:"2025-10-25",org:"东方证券",cat:"行星滚柱丝杠"},
-{title:"灵巧手与传感器:拟人化与智能化的核心突破",date:"2025-11-15",org:"国泰海通",cat:"灵巧手/末端"},
+{title:"丝杠制造壁垒高企,人形机器人催化丝杠市场规模跃升——五洲新春已获辰致/欧摩威/吉利定点",date:"2026-05-27",org:"湘财证券",cat:"丝杠"},
+{title:"鸣志电器: 先发布局灵巧手电机,Gen3单手25执行器,百万台对应百亿市场",date:"2026-06-01",org:"华源证券",cat:"电机"},
+{title:"Optimus 7月底-8月量产;德州第二产线27年投产;Optimus 3年底推出",date:"2026-06-02",org:"中信建投",cat:"整机"},
+{title:"2026行业拐点: 中国全产业链爆发,海外跨越式发展,BOM成本降40%+",date:"2026-01-30",org:"招商证券(香港)",cat:"策略"},
+{title:"奥比中光: 3D视觉龙头,已入人形机器人第一梯队供应链(智元/宇树/优必选/乐聚)",date:"2026-03-31",org:"中泰证券",cat:"传感器"},
+{title:"2026年具身智能产业报告:BOM全表拆解(执行器45%/传感器15%/结构件12%)",date:"2026-02-04",org:"36氪",cat:"策略"},
+{title:"万联策略: 优必选2025>500台,2026产能万台;智元2026数万台",date:"2026-03-13",org:"万联证券",cat:"整机"},
+{title:"东方电热: 液冷系统单台$200,散热占BOM 5%→未来扩容10%+",date:"2026-04-15",org:"中泰证券",cat:"热管理"},
+{title:"灵巧手深度: 千亿市场,核心零部件(电机/腱绳/丝杠/传感器)布局加深",date:"2026-03-13",org:"国联民生",cat:"灵巧手"},
+{title:"传感器深度: 六维力为人形机器人'神经元',机器人领域占比72%",date:"2025-07-18",org:"东海证券",cat:"传感器"},
+{title:"传感器深度PPT: 产业化成熟后BOM占比~22%,国产替代空间大",date:"2024-02-18",org:"浙商证券",cat:"传感器"},
+{title:"力传感器深度: 10/50/100万台对应60k/42k/30k元价值量,市场60/210/300亿",date:"2023-11-16",org:"华创证券",cat:"传感器"},
+{title:"丝杠深度: 行星滚柱丝杠百万台时单价¥1000/根;2022年市场仅4.4亿",date:"2025-04-11",org:"麦高证券",cat:"丝杠"},
+{title:"野村东方: 2027年六维力传感器4.2万套,2022-2027 CAGR 57%",date:"2025-06-20",org:"野村东方国际",cat:"传感器"},
+{title:"创耀科技: 六维力传感器为闭环关键神经元,EtherCAT为不可替代通信底座",date:"2025-05-14",org:"东北证券",cat:"传感器"},
+{title:"绿的谐波: 谐波减速器全球龙头,拓展丝杠新赛道",date:"2026-01-26",org:"国金证券",cat:"减速器"},
+{title:"Optimus V3时刻: 行星滚柱丝杠+谐波减速器国产替代正当时",date:"2026-03-24",org:"太平洋证券",cat:"执行器"},
+{title:"拓普集团: 马斯克的V3时刻,Optimus核心供应商",date:"2026-03-24",org:"太平洋证券",cat:"执行器"},
+{title:"五洲新春: 丝杠龙头卡位人形机器人+EMB双赛道,定增加码产能",date:"2026-01-15",org:"浙商证券",cat:"丝杠"},
+{title:"奥比中光深度: 十年磨剑,AI之眼",date:"2026-06-02",org:"华创证券",cat:"传感器"},
 ];
 
-// ════════════════ 渲染函数 ════════════════
+const cats=[...new Set(reports.map(r=>r.cat))];
 
 function init(){
-renderChainGrid();
-renderStockTable();
-renderTimeline();
-renderLocalizationBars();
-renderBottleneckList();
-setupReportFilters();
-renderRecommendations();
-renderCharts();
+document.getElementById('stock-tb').innerHTML=stocks.map(s=>`<tr class="hover:bg-slate-800/30"><td class="py-2 font-mono text-slate-500">${s.code}</td><td class="py-2 font-medium text-white">${s.name}</td><td class="py-2 text-slate-300">${s.seg}</td><td class="py-2 text-center"><span class="text-xs px-2 py-0.5 rounded text-white ${s.tier==='核心'?'danger-bg':s.tier==='重要'?'warn-bg':'ok-bg'}">${s.tier}</span></td><td class="py-2 text-right font-mono">${s.price.toFixed(2)}</td><td class="py-2 text-right font-mono ${s.chg>=0?'up':'down'}">${s.chg>=0?'+':''}${s.chg.toFixed(2)}%</td><td class="py-2 text-right font-mono text-slate-400">${s.pe>0?s.pe.toFixed(2):'N/A'}</td><td class="py-2 text-right font-mono text-slate-400">${s.pb.toFixed(2)}</td><td class="py-2 text-right font-mono">${s.mcap.toFixed(2)}</td></tr>`).join('');
+
+document.getElementById('cat-filters').innerHTML='<span class="text-xs px-2 py-1 rounded bg-blue-600 text-white cursor-pointer" onclick="filterRp(\'all\')">全部('+reports.length+')</span>'+cats.map(c=>`<span class="text-xs px-2 py-1 rounded bg-slate-700 text-slate-300 cursor-pointer hover:bg-slate-600" onclick="filterRp('${c}')">${c}</span>`).join('');
+
+filterRp('all');
+
+// 卡脖子列表
+document.getElementById('bn-list').innerHTML=[
+{rk:"1",nm:"行星滚柱丝杠",lv:"极高",desc:"进口¥12,000/根×14-16根/台。螺纹沟槽0.1-0.2mm超精密加工。2022年国内市场规模仅4.4亿元(麦高)。制造难度>六维力传感器>谐波减速器(东方证券排序)",sz:[{l:"制造难度",v:95},{l:"不可替代性",v:92},{l:"国产急迫性",v:100},{l:"资本关注度",v:88}]},
+{rk:"2",nm:"六维力传感器",lv:"极高",desc:"单台需4个六维力+28个关节力矩传感器。'环境感知-运动决策-力控执行'闭环关键神经元(东北)。机器人领域占比72%(东海)。ASP 6-8万元(华创),国产率仅25%",sz:[{l:"制造难度",v:90},{l:"不可替代性",v:88},{l:"国产急迫性",v:95},{l:"资本关注度",v:80}]},
+{rk:"3",nm:"谐波减速器",lv:"高",desc:"绿的谐波价格已降60%但寿命仅为日本HD的70%。精度<1弧分+量产一致性是核心难点。全球龙头地位稳固但需持续突破",sz:[{l:"制造难度",v:80},{l:"不可替代性",v:75},{l:"国产急迫性",v:85},{l:"资本关注度",v:92}]},
+{rk:"4",nm:"空心杯电机",lv:"高",desc:"灵巧手核心驱动,Gen3单手25个执行器(华源)。壁垒在高速平稳性+寿命+配套行星减速箱。鸣志国内领先全球第一阵营,性能对标Maxon",sz:[{l:"制造难度",v:75},{l:"不可替代性",v:70},{l:"国产急迫性",v:78},{l:"资本关注度",v:85}]},
+{rk:"5",nm:"灵巧手总成",lv:"中高",desc:"微型丝杠+腱绳传动+触觉反馈三合一,良率仅~30%。'行业仍缺少足够好用且成本性能平衡的灵巧手'(36氪)",sz:[{l:"制造难度",v:70},{l:"不可替代性",v:68},{l:"国产急迫性",v:72},{l:"资本关注度",v:82}]},
+].map(b=>`<div class="glass-sm p-4"><div class="flex items-center gap-3 mb-2"><span class="text-2xl font-black text-slate-600">0${b.rk}</span><span class="font-bold text-white">${b.nm}</span><span class="text-xs px-2 py-0.5 rounded text-white danger-bg">${b.lv}</span></div><p class="text-xs text-slate-400 mb-3">${b.desc}</p><div class="flex gap-2">${b.sz.map(s=>`<div class="flex-1 text-center"><div class="text-lg font-bold text-white">${s.v}</div><div class="text-xs text-slate-500">${s.l}</div></div>`).join('')}</div></div>`).join('');
+
+// 核心关注
+document.getElementById('rc-list').innerHTML=[
+{nm:"拓普集团",cd:"601689",sc:95,sp:{cost:35,bn:30,rpt:30},logic:"执行器总成占BOM ~45%为产业链最大蛋糕(36氪)。Optimus V3核心供应商,太平洋5篇深度覆盖,确定性最高",tags:["BOM占比45%","特斯拉一级供应商","确定性最高"]},
+{nm:"五洲新春",cd:"603667",sc:94,sp:{cost:32,bn:35,rpt:27},logic:"行星滚柱丝杠进口¥12,000/根,卡脖子No.1。已获辰致科技/欧摩威/吉利定点(湘财5/27)。百万台市场300亿",tags:["进口替代","客户定点落地","300亿市场"]},
+{nm:"绿的谐波",cd:"688017",sc:88,sp:{cost:30,bn:28,rpt:30},logic:"谐波减速器全球龙头,价格已降60%。拓展丝杠新赛道形成平台化布局,国金深度覆盖",tags:["全球龙头","平台化延伸","降本60%"]},
+{nm:"柯力传感",cd:"603662",sc:85,sp:{cost:33,bn:32,rpt:20},logic:"唯一A股六维力传感器标的。ASP 6-8万元(华创),预期差最大。传感器BOM占比15-22%",tags:["稀缺标的","最高ASP","预期差最大"]},
+{nm:"鸣志电器",cd:"603728",sc:81,sp:{cost:28,bn:26,rpt:27},logic:"空心杯电机国内领先/全球第一阵营,性能对标Maxon。Gen3灵巧手单手25执行器,百万台百亿市场(华源)",tags:["灵巧手核心","百万台百亿","对标Maxon"]},
+].map((r,i)=>`<div class="glass-sm p-5"><div class="flex items-start gap-4"><div class="text-3xl font-black text-slate-600">0${i+1}</div><div class="flex-1"><div class="flex items-center gap-2 mb-1"><span class="font-bold text-white">${r.nm}</span><span class="text-xs text-slate-400">${r.cd}</span></div><div class="text-xs text-slate-400 mb-2">${r.logic}</div><div class="flex flex-wrap gap-1 mb-2">${r.tags.map(t=>`<span class="text-xs px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-300">${t}</span>`).join('')}</div><div class="flex gap-3 text-xs"><div class="flex-1"><span class="text-slate-500">成本占比</span><br><span class="font-bold text-emerald-400">${r.sp.cost}/35</span></div><div class="flex-1"><span class="text-slate-500">卡脖子</span><br><span class="font-bold text-purple-400">${r.sp.bn}/35</span></div><div class="flex-1"><span class="text-slate-500">研报密度</span><br><span class="font-bold text-blue-400">${r.sp.rpt}/30</span></div></div></div><div class="text-right"><div class="text-3xl font-black grad-text">${r.sc}</div></div></div></div>`).join('');
+
+// 催化时间线
+document.getElementById('tl-container').innerHTML=`<div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-600 rounded"></div><div class="space-y-5 pl-12">${timeline.map(t=>`<div class="relative"><div class="absolute -left-[2.15rem] w-3.5 h-3.5 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-slate-900"></div><div class="glass-sm p-4"><div class="flex items-center gap-2 mb-1.5"><span class="text-xs font-mono text-blue-400">${t.date}</span><span class="text-xs px-2 py-0.5 rounded-full bg-slate-700">${t.type}</span><span class="source-tag">${t.src}</span></div><div class="text-xs text-slate-200">${t.title}</div></div></div>`).join('')}</div>`;
 }
 
-function renderChainGrid(){
-const el=document.getElementById('chain-grid');
-el.innerHTML=categories.map(c=>`
-<div class="glass-sm p-4 cursor-pointer hover:scale-[1.02] transition" onclick="filterCat('${c.name}')">
-<div class="flex justify-between mb-2"><span class="font-medium text-white text-sm">${c.name}</span><span class="bg-gradient-to-r ${c.color} text-xs px-2 py-0.5 rounded-full text-white">${c.count}篇</span></div>
-<div class="text-xs text-slate-400 mb-1">BOM占比: <b class="text-amber-400">${c.bom}</b></div>
-<div class="text-xs text-slate-500 mb-2">重要性: ${'★'.repeat(c.imp/2)}${c.imp>=10?'🔴':c.imp>=9?'🟡':'🟢'}</div>
-<div class="flex flex-wrap gap-1">${c.stocks.map(s=>`<span class="text-xs px-2 py-0.5 rounded bg-slate-700/80 text-slate-300">${s}</span>`).join('')||'<span class="text-xs text-slate-600">策略类</span>'}</div>
-</div>`).join('');
+function filterRp(cat='all'){
+const f=cat==='all'?reports:reports.filter(r=>r.cat===cat);
+document.getElementById('rp-list').innerHTML=f.map(r=>`<div class="glass-sm p-3"><div class="flex items-center gap-2 mb-1.5"><span class="text-xs px-2 py-0.5 rounded bg-blue-600/30 text-blue-300">${r.cat}</span><span class="text-xs text-slate-500">${r.org}</span><span class="text-xs text-slate-500">${r.date}</span></div><div class="text-xs text-slate-200">${r.title}</div></div>`).join('');
 }
 
-function renderStockTable(){
-const tb=document.getElementById('stock-tbody');
-tb.innerHTML=stocks.map(s=>`<tr class="hover:bg-slate-800/30"><td class="py-2.5 font-mono text-slate-500">${s.code}</td><td class="py-2.5 font-medium text-white">${s.name}</td><td class="py-2.5">${s.segment}</td><td class="py-2.5 text-center"><span class="text-xs px-2 py-1 rounded text-white ${s.tier==='核心'?'danger':s.tier==='重要'?'warn':'ok'}">${s.tier}</span></td><td class="py-2.5 text-right font-mono text-white">${s.price.toFixed(2)}</td><td class="py-2.5 text-right font-mono ${s.chg>=0?'up':'down'}">${s.chg>=0?'+':''}${s.chg.toFixed(2)}%</td><td class="py-2.5 text-right font-mono text-slate-400">${s.pe>0?s.pe.toFixed(2):'N/A'}</td><td class="py-2.5 text-right font-mono text-slate-400">${s.pb.toFixed(2)}</td><td class="py-2.5 text-right font-mono text-slate-400">${s.mcap.toFixed(2)}</td></tr>`).join('');
-}
-
-function renderTimeline(){
-document.getElementById('timeline-container').innerHTML=`
-<div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-600 rounded"></div>
-<div class="space-y-5 pl-12">${timeline.map(t=>`
-<div class="relative"><div class="absolute -left-[2.15rem] w-3.5 h-3.5 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-slate-900"></div>
-<div class="glass-sm p-4"><div class="flex items-center gap-3 mb-1.5"><span class="text-sm font-mono text-blue-400">${t.date}</span><span class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">${t.type}</span></div><div class="text-sm text-slate-200">${t.title}</div></div></div>`).join('')}</div>`;
-}
-
-function renderLocalizationBars(){
-const data=[
-{name:"结构件/电池",rate:75,color:"progress-green"},
-{name:"谐波减速器",rate:60,color:"progress-yellow"},
-{name:"无框力矩电机",rate:55,color:"progress-green"},
-{name:"空心杯电机",rate:40,color:"progress-yellow"},
-{name:"3D视觉传感器",rate:35,color:"progress-yellow"},
-{name:"行星滚柱丝杠",rate:28,color:"progress-red"},
-{name:"六维力传感器",rate:25,color:"progress-red"},
-];
-document.getElementById('localization-bars').innerHTML=data.map(d=>`
-<div class="flex items-center gap-3"><div class="w-32 text-sm text-slate-300">${d.name}</div><div class="flex-1 h-6 bg-slate-700/50 rounded-full overflow-hidden"><div class="h-full ${d.color} rounded-full bar-fill flex items-center justify-end pr-2 text-xs text-white font-bold" style="width:${d.rate}%">${d.rate}%</div></div><div class="text-xs text-slate-500 w-16 text-right">${d.rate<30?'🔴 极低':d.rate<50?'🟡 偏低':'🟢 中等'}</div></div>`).join('');
-}
-
-function renderBottleneckList(){
-const bottlenecks=[
-{rank:"1",name:"行星滚柱丝杠",barrier:"极高",desc:"进口¥12,000/根 × 14-16根/台。螺纹沟槽0.1-0.2mm超精密加工,全球仅少数企业掌握反向式设计。国产化率仅25-30%",scores:[{l:"制造难度",v:95},{l:"替代难度",v:92},{l:"国产急迫性",v:100},{l:"资本关注度",v:88}]},
-{rank:"2",name:"六维力传感器",barrier:"极高",desc:"单台需4个六维力+28个关节力矩传感器。交叉耦合解耦算法+应变片工艺双重壁垒。价值量最高(占整机34%),但国产化率仅25%",scores:[{l:"制造难度",v:90},{l:"替代难度",v:88},{l:"国产急迫性",v:95},{l:"资本关注度",v:80}]},
-{rank:"3",name:"谐波减速器",barrier:"高",desc:"绿的谐波将价格打下来60%,但寿命只有日本HD的70%(24小时产线需年换)。精度<1弧分要求维持量产一致性是核心难点",scores:[{l:"制造难度",v:80},{l:"替代难度",v:75},{l:"国产急迫性",v:85},{l:"资本关注度",v:92}]},
-{rank:"4",name:"空心杯电机",barrier:"高",desc:"灵巧手核心驱动(单只需~20个)。技术壁垒在于高转速平稳性、寿命、噪音及配套行星减速箱。鼎智/鸣志已突破但产能仍需爬坡",scores:[{l:"制造难度",v:75},{l:"替代难度",v:70},{l:"国产急迫性",v:78},{l:"资本关注度",v:85}]},
-{rank:"5",name:"3D视觉+灵巧手",barrier:"中高",desc:"灵巧手良率当前仅~30%(特斯拉曾因手部故障停产)。微型丝杠+腱绳传动+触觉反馈三合一,精细化操作是规模化最大障碍",scores:[{l:"制造难度",v:70},{l:"替代难度",v:68},{l:"国产急迫性",v:72},{l:"资本关注度",v:82}]},
-];
-document.getElementById('bottleneck-list').innerHTML=bottlenecks.map(b=>`
-<div class="glass-sm p-4"><div class="flex items-center gap-3 mb-2"><span class="text-2xl font-black text-slate-600">0${b.rank}</span><span class="font-bold text-white">${b.name}</span><span class="danger text-xs text-white px-2 py-0.5 rounded">${b.barrier}</span></div><p class="text-sm text-slate-400 mb-3">${b.desc}</p><div class="flex gap-2">${b.scores.map(s=>`<div class="flex-1 text-center"><div class="text-lg font-bold text-white">${s.v}</div><div class="text-xs text-slate-500">${s.l}</div></div>`).join('')}</div></div>`).join('');
-}
-
-function setupReportFilters(){
-const cc=document.getElementById('cat-filters');
-cc.innerHTML='<button class="filter-btn active px-3 py-1.5 rounded-lg text-xs bg-blue-600 text-white" data-filter="all">全部</button>';
-categories.forEach(c=>{const b=document.createElement('button');b.className='filter-btn px-3 py-1.5 rounded-lg text-xs bg-slate-700 text-slate-300 transition';b.textContent=`${c.name}(${c.count})`;b.onclick=()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active','bg-blue-600','text-white'));b.classList.add('active','bg-blue-600','text-white');renderReports(c.name);};cc.appendChild(b);});
-const orgs=[...new Set(reports.map(r=>r.org))].sort();const os=document.getElementById('org-filter');orgs.forEach(o=>{const opt=document.createElement('option');opt.value=o;opt.textContent=o;os.appendChild(opt);});
-os.onchange=()=>renderReports();
-document.getElementById('date-filter').onchange=()=>renderReports();
-}
-
-function renderReports(cat=document.querySelector('.filter-btn.active')?.dataset?.filter||'all'){
-const org=document.getElementById('org-filter').value,dt=document.getElementById('date-filter').value;
-let f=reports;
-if(cat!=='all') f=f.filter(r=>r.cat===cat);
-if(org!=='all') f=f.filter(r=>r.org===org);
-if(dt!=='all') f=f.filter(r=>r.date.startsWith(dt));
-document.getElementById('reports-list').innerHTML=f.map(r=>`
-<div class="glass-sm p-4"><div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-blue-600/30 text-blue-300">${r.cat}</span><span class="text-xs text-slate-500">${r.org}</span><span class="text-xs text-slate-500">${r.date}</span></div><div class="text-sm text-slate-200">${r.title}</div></div>`).join('')||'<div class="text-center text-slate-500 py-12">暂无符合条件研报</div>';
-}
-
-function renderRecommendations(){
-document.getElementById('recommend-list').innerHTML=[
-{name:"拓普集团",code:"601689",score:95,scoreBreak:{report:28,bottleneck:32,cost:35},logic:"执行器总成龙头,Optimus V3核心一级供应商,太平洋5篇深度覆盖。关节模组占BOM ~50%为产业链最大蛋糕",tags:["特斯拉供应链","执行器龙头","BOM占比最大"]},
-{name:"五洲新春",code:"603667",score:93,scoreBreak:{report:26,bottleneck:35,cost:32},logic:"行星滚柱丝杠国产化率最低(25%),卡脖子排序第1。丝杠占BOM ~19%为最高单项成本。泰国工厂2026投产",tags:["最卡脖子","丝杠国产龙头","19%BOM"]},
-{name:"绿的谐波",code:"688017",score:90,scoreBreak:{report:30,bottleneck:28,cost:32},logic:"谐波减速器全球龙头,价格已降60%但市场空间是产能的5倍。拓展丝杠新赛道形成平台化布局",tags:["全球龙头","谐波王者","平台化延伸"]},
-{name:"柯力传感",code:"603662",score:86,scoreBreak:{report:18,bottleneck:33,cost:35},logic:"唯一A股六维力传感器标的。传感器占整机成本34%为最高,但研报密度仅7篇(预期差最大)",tags:["稀缺标的","预期差","34%价值量"]},
-{name:"鸣志电器",code:"603728",score:82,scoreBreak:{report:26,bottleneck:26,cost:30},logic:"空心杯电机国内领先,灵巧手核心驱动(单只需20个)。自研绕线设备掌握工艺Know-how",tags:["灵巧手核心","空心杯龙头","自研设备"]},
-].map((r,i)=>`
-<div class="glass-sm p-5">
-<div class="flex items-start gap-4"><div class="text-3xl font-black text-slate-600">0${i+1}</div>
-<div class="flex-1"><div class="flex items-center gap-2 mb-1"><span class="font-bold text-white text-lg">${r.name}</span><span class="text-sm text-slate-400">${r.code}</span></div>
-<div class="text-xs text-slate-500 mb-2">${r.logic}</div>
-<div class="flex flex-wrap gap-1 mb-3">${r.tags.map(t=>`<span class="text-xs px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-300 border border-blue-600/30">${t}</span>`).join('')}</div>
-<div class="flex gap-3"><div class="flex-1"><div class="text-xs text-slate-500">研报密度</div><div class="text-sm font-bold text-blue-400">${r.scoreBreak.report}/35</div></div><div class="flex-1"><div class="text-xs text-slate-500">卡脖子</div><div class="text-sm font-bold text-purple-400">${r.scoreBreak.bottleneck}/35</div></div><div class="flex-1"><div class="text-xs text-slate-500">成本占比</div><div class="text-sm font-bold text-emerald-400">${r.scoreBreak.cost}/35</div></div></div></div>
-<div class="text-right"><div class="text-3xl font-black grad-text">${r.score}</div><div class="text-xs text-slate-500">综合分</div></div></div></div>`).join('');
+function switchTab(tab){
+['overview','cost','pricing','bottleneck','reports','timeline','recommend'].forEach(t=>{
+document.getElementById('v-'+t).classList.toggle('hidden',t!==tab);
+document.getElementById('t-'+t).classList.toggle('active',t===tab);
+document.getElementById('t-'+t).classList.toggle('bg-blue-600',t===tab);
+document.getElementById('t-'+t).classList.toggle('text-white',t===tab);
+});
+if(tab==='cost')renderCharts();
 }
 
 function renderCharts(){
-// BOM饼图
-new Chart(document.getElementById('bomChart'),{type:'doughnut',data:{labels:['行星滚柱丝杠(19%)','谐波减速器(15%)','六维力传感器(17%)','无框力矩电机(11%)','空心杯电机(8%)','灵巧手(20%)','电池/结构件/其他(10%)'],datasets:[{data:[19,15,17,11,8,20,10],backgroundColor:['#ef4444','#f97316','#eab308','#3b82f6','#8b5cf6','#ec4899','#64748b'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',padding:12,font:{size:11}}}}}});
-
-// 价格曲线
+if(window._chartsRendered)return;window._chartsRendered=true;
+new Chart(document.getElementById('bomChart'),{type:'doughnut',data:{labels:['执行器系统(45%)','传感器系统(15%)','结构件/新材料(12%)','控制系统(10%)','电池/电源(8%)','AI芯片(5%)','散热/其他(5%)'],datasets:[{data:[45,15,12,10,8,5,5],backgroundColor:['#ef4444','#eab308','#3b82f6','#8b5cf6','#10b981','#f97316','#64748b'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',padding:10,font:{size:10}}}}}});
 new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:['2023','2024','2025','2026E','2027E','2028E','2030E'],datasets:[
-{label:'Optimus(万元)',data:[73,55,43,14.4,10,7,3.5],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.1)',tension:.4,fill:true,borderWidth:2,pointRadius:5},
-{label:'国产整机入门(万元)',data:[50,30,15,8,5,3.5,2],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',tension:.4,fill:true,borderWidth:2,pointRadius:5},
+{label:'Optimus整机(万元)',data:[73,55,43,14.4,10,7,3.5],borderColor:'#3b82f6',tension:.4,borderWidth:2,pointRadius:5},
+{label:'六维力传感器ASP(万元)',data:[6,5.2,4.6,3.5,2.5,1.8,1.2],borderColor:'#ef4444',borderDash:[5,5],tension:.4,borderWidth:2,pointRadius:4,yAxisID:'y1'},
 {label:'谐波减速器(千元)',data:[4,2.5,2,1.7,1.3,1,0.7],borderColor:'#f59e0b',borderDash:[5,5],tension:.4,borderWidth:2,pointRadius:4,yAxisID:'y1'},
-{label:'六维力传感器-单轴(千元)',data:[5,3.5,2.5,1.7,1.2,0.8,0.5],borderColor:'#ef4444',borderDash:[5,5],tension:.4,borderWidth:2,pointRadius:4,yAxisID:'y1'},
-]},options:{responsive:true,interaction:{intersect:false},plugins:{legend:{labels:{color:'#94a3b8',padding:12}}},scales:{y:{type:'linear',position:'left',title:{display:true,text:'整机价格(万元)',color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,0.08)'}},y1:{type:'linear',position:'right',title:{display:true,text:'零部件单价(千元)',color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{drawOnChartArea:false},min:0},x:{ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,0.08)'}}}}});
+]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',padding:10,font:{size:10}}}},scales:{y:{title:{display:true,text:'整机(万元)',color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,.08)'}},y1:{position:'right',title:{display:true,text:'零部件(千/万元)',color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{drawOnChartArea:false},min:0},x:{ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,.08)'}}}}});
 }
-
-// ════════════════ Tab切换 ════════════════
-function switchTab(tab){['overview','cost','bottleneck','reports','timeline','recommend'].forEach(t=>{document.getElementById('v-'+t).classList.toggle('hidden',t!==tab);document.getElementById('t-'+t).classList.toggle('active',t===tab);document.getElementById('t-'+t).classList.toggle('bg-blue-600',t===tab);document.getElementById('t-'+t).classList.toggle('text-white',t===tab);});if(tab==='cost')renderCharts();}
-function filterCat(cat){switchTab('reports');renderReports(cat);}
 
 init();
 </script>
-
 </body>
 </html>
